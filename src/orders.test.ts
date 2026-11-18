@@ -11,4 +11,8 @@ describe("orders", () => {
   it("describes an order with tags", () => {
     expect(describeOrder(ORDERS[0])).toBe("Alpha Ltd — $25.00 #priority #b2b");
   });
+  it("describes C-300 when tags are omitted", () => {
+    const order = ORDERS.find(({ id }) => id === "C-300")!;
+    expect(describeOrder(order)).toBe("Gamma Co — $21.00");
+  });
 });
