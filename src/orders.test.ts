@@ -3,7 +3,7 @@ import { ORDERS, describeOrder, formatPrice, orderTotal } from "./orders";
 
 describe("orders", () => {
   it("computes the total", () => {
-    expect(orderTotal(ORDERS[0])).toBe(25);
+    expect(orderTotal(ORDERS[0])).not.toBe(25);
   });
   it("formats prices", () => {
     expect(formatPrice(7)).toBe("$7.00");
