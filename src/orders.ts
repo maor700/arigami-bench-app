@@ -8,7 +8,7 @@ export interface Order {
 export const ORDERS: Order[] = [
   { id: "A-100", customer: "Alpha Ltd", items: [{ name: "Widget", price: 12.5, qty: 2 }], tags: ["priority", "b2b"] },
   { id: "B-200", customer: "Beta Inc", items: [{ name: "Gadget", price: 40, qty: 1 }], tags: ["retail"] },
-  // Gamma has no tags: opening its details triggers the seeded bug (see describeOrder).
+  // Gamma has no tags.
   { id: "C-300", customer: "Gamma Co", items: [{ name: "Doohickey", price: 7, qty: 3 }] },
 ];
 
@@ -20,10 +20,8 @@ export function formatPrice(value: number): string {
   return `$${value.toFixed(2)}`;
 }
 
-// BUG (deliberate, for the benchmark): assumes every order has tags.
-// Opening an order without tags throws
-// "TypeError: Cannot read properties of undefined (reading 'map')".
+// Orders may have no tags (e.g. C-300): treat a missing list as empty.
 export function describeOrder(order: Order): string {
-  const tags = order.tags!.map((t) => `#${t}`).join(" ");
+  const tags = (order.tags ?? []).map((t) => `#${t}`).join(" ");
   return `${order.customer} — ${formatPrice(orderTotal(order))} ${tags}`.trim();
 }
