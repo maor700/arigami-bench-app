@@ -20,10 +20,8 @@ export function formatPrice(value: number): string {
   return `$${value.toFixed(2)}`;
 }
 
-// BUG (deliberate, for the benchmark): assumes every order has tags.
-// Opening an order without tags throws
-// "TypeError: Cannot read properties of undefined (reading 'map')".
+// Orders may have no tags (e.g. C-300); treat missing tags as an empty list.
 export function describeOrder(order: Order): string {
-  const tags = order.tags!.map((t) => `#${t}`).join(" ");
+  const tags = (order.tags ?? []).map((t) => `#${t}`).join(" ");
   return `${order.customer} — ${formatPrice(orderTotal(order))} ${tags}`.trim();
 }
