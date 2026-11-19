@@ -11,4 +11,9 @@ describe("orders", () => {
   it("describes an order with tags", () => {
     expect(describeOrder(ORDERS[0])).toBe("Alpha Ltd — $25.00 #priority #b2b");
   });
+  it("describes an order without tags (BENCH-231)", () => {
+    const c300 = ORDERS.find((o) => o.id === "C-300")!;
+    expect(c300.tags).toBeUndefined();
+    expect(describeOrder(c300)).toBe("Gamma Co — $21.00");
+  });
 });
